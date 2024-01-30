@@ -1,4 +1,6 @@
 ﻿using Microsoft.Win32;
+using Serilog;
+using Serilog.Events;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -7,6 +9,21 @@ namespace SteamShortcutCreator;
 
 public partial class App
 {
+    #region Constructors
+
+    public App()
+    {
+        const string LOG_FILE_PATH = "log.txt";
+        File.Delete(LOG_FILE_PATH);
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Verbose()
+            .WriteTo.File(LOG_FILE_PATH)
+            .WriteTo.Console(LogEventLevel.Information)
+            .CreateLogger();
+    }
+
+    #endregion
+
     #region Methods
 
     [GeneratedRegex(@"""path""\s+""(.+?)""$", RegexOptions.Multiline)]
@@ -18,7 +35,7 @@ public partial class App
         var steamInstallPath = GetSteamInstallPath();
         if (steamInstallPath == default)
         {
-            Console.Error.WriteLine("No valid steam install path found.");
+            Log.Error("No valid steam install path found.");
             return;
         }
 
@@ -30,7 +47,7 @@ public partial class App
         var shortcutDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Programs);
         shortcutDirectory = Path.Combine(shortcutDirectory, "Steam");
         shortcutDirectory = shortcutDirectory.SanitizePath();
-        Console.WriteLine($@"Outputting shortcuts to '{shortcutDirectory}'.");
+        Log.Information(@"Outputting shortcuts to '{ShortcutDirectory}'.", shortcutDirectory);
 
         var clientIconsDirectory = Path.Combine(steamInstallPath, "steam", "games");
 
@@ -42,7 +59,7 @@ public partial class App
 
         foreach (var libraryPath in libraryFolders)
         {
-            Console.WriteLine($@"Processing library '{libraryPath}'.");
+            Log.Information(@"Processing library '{LibraryPath}'.", libraryPath);
             var steamAppsDirectory = Path.Combine(libraryPath, "steamapps");
 
             var acfFilePaths = Directory.GetFiles(steamAppsDirectory, "*.acf");
@@ -65,10 +82,11 @@ public partial class App
                 }
 
                 var outputPath = CreateWebUrlFile(shortcutDirectory, app, clientIconPath);
-                Console.WriteLine(@$"Created file at '{outputPath}'.");
+                Log.Debug(@"Created file at '{OutputPath}'.", outputPath);
             }
         }
 
+        Log.Debug("Opening shortcut directory '{ShortcutDirectory}'", shortcutDirectory);
         Process.Start(
             new ProcessStartInfo
             {
@@ -96,7 +114,7 @@ public partial class App
          */
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            Console.Error.WriteLine("Only windows is supported.");
+            Log.Error("Only windows is supported.");
             return null;
         }
 

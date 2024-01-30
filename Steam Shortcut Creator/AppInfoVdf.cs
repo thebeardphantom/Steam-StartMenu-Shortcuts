@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Serilog;
+using System.Text;
 
 namespace SteamShortcutCreator;
 
@@ -74,12 +75,12 @@ public class AppInfoVdf
             {
                 if (state == ScannerState.LookingForClientIcon)
                 {
-                    Console.Error.WriteLine($"No client icon in section for appID {lastAppId}");
+                    Log.Verbose("No client icon in section for appID {LastAppId}", lastAppId);
                 }
 
                 state = ScannerState.LookingForClientIcon;
                 lastAppId = reader.ReadInt32();
-                Console.WriteLine(@$"Found appinfo header for appID {lastAppId}.");
+                Log.Verbose("Found appinfo header for appID {LastAppId}.", lastAppId);
             }
             else if (state == ScannerState.LookingForClientIcon)
             {
@@ -89,7 +90,7 @@ public class AppInfoVdf
                 {
                     var guidBytes = reader.ReadBytes(40);
                     var guid = Encoding.Default.GetString(guidBytes);
-                    Console.WriteLine(@$"Found client icon guid {guid} for appID {lastAppId}.");
+                    Log.Verbose("Found client icon guid {Guid} for appID {LastAppId}.", guid, lastAppId);
                     _appIdToGuid.Add(lastAppId, guid);
                     state = ScannerState.LookingForAppInfo;
                 }
