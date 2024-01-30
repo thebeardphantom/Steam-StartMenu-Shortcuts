@@ -7,13 +7,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bcc04da4-4276-49e4-a43b-10f8205b9e03" name="Changes" comment="Workspace changes">
-      <change afterPath="$PROJECT_DIR$/Steam Shortcut Creator/App.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Steam Shortcut Creator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Steam Shortcut Creator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steam Shortcut Creator/AppInfoVdf.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Steam Shortcut Creator/AppInfoVdf.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steam Shortcut Creator/AppUtility.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Steam Shortcut Creator/AppUtility.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steam Shortcut Creator/EntryPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Steam Shortcut Creator/EntryPoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Steam Shortcut Creator/SteamApp.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Steam Shortcut Creator/SteamApp.cs" afterDir="false" />
+    <list default="true" id="bcc04da4-4276-49e4-a43b-10f8205b9e03" name="Changes" comment="Open shortcuts output folder when complete.">
+      <change beforePath="$PROJECT_DIR$/Steam Shortcut Creator/Steam Shortcut Creator.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Steam Shortcut Creator/Steam Shortcut Creator.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +34,7 @@
     <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/20c8f61ae3dadf2e97415f331439363aa8e26201167dbf4bc4d4ae59ce7c4/BinaryReader.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/_Content/WorkRoot/Other/Steam Shortcut Creator/Steam Shortcut Creator/App.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Steam Shortcut Creator/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
@@ -107,7 +103,7 @@
       <option name="presentableId" value="Default" />
       <updated>1706560747357</updated>
       <workItem from="1706560748597" duration="8932000" />
-      <workItem from="1706584506006" duration="8917000" />
+      <workItem from="1706584506006" duration="9228000" />
     </task>
     <task id="LOCAL-00001" summary="Init commit.">
       <option name="closed" value="true" />
@@ -125,7 +121,23 @@
       <option name="project" value="LOCAL" />
       <updated>1706592964056</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Cleaned up and clarified a lot.">
+      <option name="closed" value="true" />
+      <created>1706594260887</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1706594260887</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Open shortcuts output folder when complete.">
+      <option name="closed" value="true" />
+      <created>1706594351589</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1706594351589</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -153,6 +165,8 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Init commit." />
     <MESSAGE value="Workspace changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Workspace changes" />
+    <MESSAGE value="Cleaned up and clarified a lot." />
+    <MESSAGE value="Open shortcuts output folder when complete." />
+    <option name="LAST_COMMIT_MESSAGE" value="Open shortcuts output folder when complete." />
   </component>
 </project>
