@@ -61,10 +61,9 @@ public class AppInfoVdf
     public AppInfoVdf(string path)
     {
         var state = ScannerState.LookingForAppInfo;
-        var bytes = File.ReadAllBytes(path);
         var lastAppId = -1;
-        using var memoryStream = new MemoryStream(bytes);
-        using var reader = new BinaryReader(memoryStream);
+        using var fileStream = File.OpenRead(path);
+        using var reader = new BinaryReader(fileStream);
         while (reader.BaseStream.Position < reader.BaseStream.Length)
         {
             /*
@@ -84,6 +83,7 @@ public class AppInfoVdf
             }
             else if (state == ScannerState.LookingForClientIcon)
             {
+                // Need to back up since the last call to TryReadHeader would have failed
                 reader.BaseStream.Position--;
                 if (TryReadHeader(_clientIconHeader, reader))
                 {
@@ -103,12 +103,11 @@ public class AppInfoVdf
 
     public string? this[int appId] => _appIdToGuid.TryGetValue(appId, out var clientIconGuid) ? clientIconGuid : default;
 
-    private static bool TryReadHeader(IReadOnlyList<byte> header, BinaryReader reader)
+    private static bool TryReadHeader(IEnumerable<byte> header, BinaryReader reader)
     {
-        for (var i = 0; i < header.Count; i++)
+        foreach (var expectedByte in header)
         {
-            var expectedByte = header[i];
-            if (reader.BaseStream.Position >= reader.BaseStream.Length)
+            if (reader.GetReachedEndOfStream())
             {
                 return false;
             }

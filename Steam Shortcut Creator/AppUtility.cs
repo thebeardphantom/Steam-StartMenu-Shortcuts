@@ -1,9 +1,8 @@
-﻿using Microsoft.Win32;
-using System.Runtime.InteropServices;
+﻿using System.Text.RegularExpressions;
 
 namespace SteamShortcutCreator;
 
-public static class AppUtility
+public static partial class AppUtility
 {
     #region Fields
 
@@ -22,75 +21,31 @@ public static class AppUtility
 
     #region Methods
 
-    public static string CreateWebUrlFile(string shortcutsDirectory, SteamApp app, string? clientIconPath)
+    public static bool GetReachedEndOfStream(this BinaryReader reader)
     {
-        var safeName = SanitizeFileName(app.Name);
-        var contents = string.Format(Resources.Web_URL_Template, app.AppId, clientIconPath);
-        var path = Path.Combine(shortcutsDirectory, $"{safeName}.url");
-        path = path.SanitizePath();
-        File.WriteAllText(path, contents);
-        return path;
+        return reader.BaseStream.Position >= reader.BaseStream.Length;
     }
 
     public static string SanitizePath(this string path)
     {
         path = path.Replace('/', '\\');
+        path = MultiBackslashRegex().Replace(path, "\\");
         path = path.Trim();
         return path;
     }
 
-    public static bool IsValidSteamLibraryPath(string? path)
-    {
-        if (string.IsNullOrWhiteSpace(path))
-        {
-            return false;
-        }
-
-        if (!Directory.Exists(path))
-        {
-            return false;
-        }
-
-        var libraryFolderFilePath = Path.Combine(path, "libraryfolder.vdf");
-        return File.Exists(libraryFolderFilePath);
-    }
-
-    public static string? GetSteamInstallPath()
-    {
-        /*
-         * Thank you, SteamAppInfo
-         * https://github.com/SteamDatabase/SteamAppInfo/blob/b1715faba87fbbc8cb56e8fe30c92ae6ed499aab/SteamAppInfoParser/Program.cs#L54C17-L54C67
-         */
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            Console.Error.WriteLine("Only windows is supported.");
-            return null;
-        }
-
-        var key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Valve\\Steam");
-        if (key == null)
-        {
-            var baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
-            key = baseKey.OpenSubKey("SOFTWARE\\Valve\\Steam");
-        }
-
-        if (key?.GetValue("SteamPath") is string installPath)
-        {
-            return installPath.SanitizePath();
-        }
-
-        return default;
-    }
-
-    private static string SanitizeFileName(string appName)
+    public static string SanitizeFileName(this string filename)
     {
         foreach (var invalidChar in _invalidFileNameChars)
         {
-            appName = appName.Replace(invalidChar.ToString(), "");
+            filename = filename.Replace(invalidChar.ToString(), "");
         }
 
-        return appName;
+        return filename;
     }
+
+    [GeneratedRegex(@"\\{2,}")]
+    private static partial Regex MultiBackslashRegex();
 
     #endregion
 }

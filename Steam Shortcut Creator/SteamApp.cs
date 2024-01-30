@@ -29,15 +29,12 @@ public partial class SteamApp
 
     public static SteamApp CreateFromFile(string filePath)
     {
-        // Console.WriteLine(@$"Reading acf at '{filePath}'.");
         var fileContents = File.ReadAllText(filePath);
         var fileName = Path.GetFileNameWithoutExtension(filePath);
         var appIdString = AppManifestRegex().Match(fileName).Groups[1].Value;
         var appId = int.Parse(appIdString);
-        // Console.WriteLine(@$"Got appid {appId} from filename '{fileName}'.");
 
         var keyValuePairMatches = KeyValueRegex().Matches(fileContents);
-        // Console.WriteLine(@$"Found {keyValuePairMatches.Count} key-value pairs.");
 
         var keyValues = new Dictionary<string, string>();
         foreach (Match match in keyValuePairMatches)
@@ -48,7 +45,6 @@ public partial class SteamApp
         var name = keyValues["name"];
 
         var installDir = keyValues["installdir"];
-        // Console.WriteLine(@$"Got installdir '{installDir}'.");
 
         return new SteamApp(appId, name, installDir);
     }
