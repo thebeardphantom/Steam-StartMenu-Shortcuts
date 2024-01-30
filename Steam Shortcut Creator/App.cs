@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
@@ -67,6 +68,14 @@ public partial class App
                 Console.WriteLine(@$"Created file at '{outputPath}'.");
             }
         }
+
+        Process.Start(
+            new ProcessStartInfo
+            {
+                FileName = shortcutDirectory,
+                UseShellExecute = true,
+                Verb = "open"
+            });
     }
 
     private string CreateWebUrlFile(string shortcutsDirectory, SteamApp app, string? clientIconPath)
